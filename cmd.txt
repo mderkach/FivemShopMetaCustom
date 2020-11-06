@@ -1,1 +1,1 @@
-gtautil genpeddefs --input extended_clothes --output ../server_v1/server-data/resources/[peds]/extended_clothes --fivem
+gtautil genpeddefs --input extended_clothes --output ../server_v1/server-data/resources/[peds]/extended_clothes --reserve 200 --reserveprops 200 --fivem
