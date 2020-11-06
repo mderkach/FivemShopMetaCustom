@@ -1,4 +1,5 @@
 import { Fragment } from 'react';
+import { observer } from 'mobx-react';
 
 const ItemDetail = (props) => {
   const { item } = props;
@@ -10,7 +11,6 @@ const ItemDetail = (props) => {
 
     if (value && value !== '') {
       item.hash_2FD08CEF[0] = value;
-      console.log(item.hash_2FD08CEF[0])
     }
   }
 
@@ -19,7 +19,7 @@ const ItemDetail = (props) => {
       <div>
         <p>name: {item.hash_2FD08CEF[0]}</p>
         <form>
-          <input type="text"></input>
+          <input type="text" defaultValue={item.hash_2FD08CEF[0]}></input>
           <button type="button" onClick={(e) => submitName(e)}>update name</button>
         </form>
         <div className="item">
@@ -31,4 +31,4 @@ const ItemDetail = (props) => {
   )
 }
 
-export default ItemDetail;
+export default observer(ItemDetail);

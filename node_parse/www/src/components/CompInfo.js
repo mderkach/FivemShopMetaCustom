@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import ItemDetail from "../components/ItemDetail";
+import { observer } from 'mobx-react';
 
 const CompInfo = (props) => {
   const { item, type, xmlCompInfo } = props;
@@ -20,4 +21,4 @@ const CompInfo = (props) => {
   )
 }
 
-export default CompInfo;
+export default observer(CompInfo);

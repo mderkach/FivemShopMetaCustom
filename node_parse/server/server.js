@@ -4,12 +4,13 @@ const multiparty = require('multiparty');
 const fs = require('fs');
 const xml2js = require('xml2js');
 const parser = new xml2js.Parser();
+const builder = new xml2js.Builder();
 
 const app = express()
 const port = 4000
 
 let metaData;
-
+let metaName;
 let availCmps = [];
 
 // parse file
@@ -87,8 +88,8 @@ const walkSync = function(dir) {
 };
 
 app.use(cors())
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json())
+app.use(express.urlencoded({ extended: true, limit: '50mb', }));
+app.use(express.json({ extended: true, limit: '50mb', }))
 
 app.post('/data', async(req, res) => {
   const form = new multiparty.Form();
@@ -111,9 +112,25 @@ app.get('/index.js',function(req,res) {
 });
 
 app.post('/custom', function (req, res) {
-  const dirData = walkSync(`../extended_clothes/${req.body.path}/components/${req.body.element}/`)
+  metaName = req.body.path;
+  const dirData = walkSync(`../extended_clothes/${metaName}/components/${req.body.element}/`)
 
   res.send(dirData);
+})
+
+app.post('/generate', function (req, res) {
+  const file = builder.buildObject(req.body.fileData);
+  const path = `outputXml/${req.body.fileName}.ymt.xml`
+  // fs.open(path, 'w', () => {
+
+  // })
+  fs.writeFile(path, file, 'UTF-8', function (err) {
+    if (err) {
+      res.send(err);
+      console.log(err)
+    }
+    else res.send('suceffuly saved file')
+  })
 })
 
 app.listen(port, () => {
