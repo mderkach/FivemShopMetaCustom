@@ -4,7 +4,12 @@
   "private": true,
   "babel": {
     "plugins": [
-      ["@babel/plugin-proposal-decorators", { "legacy": true }]
+      [
+        "@babel/plugin-proposal-decorators",
+        {
+          "legacy": true
+        }
+      ]
     ],
     "presets": [
       "react-app"
@@ -12,8 +17,9 @@
   },
   "dependencies": {
     "@babel/core": "7.12.3",
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.2",
-    "@svgr/webpack": "5.4.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -154,6 +160,7 @@
     "resetMocks": true
   },
   "devDependencies": {
-    "@babel/plugin-proposal-decorators": "^7.12.1"
+    "@babel/plugin-proposal-decorators": "^7.12.1",
+    "@svgr/webpack": "^5.4.0"
   }
 }
