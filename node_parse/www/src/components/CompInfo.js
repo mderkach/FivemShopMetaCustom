@@ -20,13 +20,14 @@ const onClickHandler = (e) => {
     const eCompType = formData.eCompType.value;
     const textureIndex = i;
     const lockHash = 'CUSTOM';
-    const uniqueNameHash = formData.uniqueNameHash.value
+    const textLabel = formData.textLabel.value
 
     itemBlank.localDrawableIndex[0].$.value = localDrawableIndex;
     itemBlank.eCompType[0] = eCompType;
     itemBlank.textureIndex[0].$.value = textureIndex
     itemBlank.lockHash[0] = lockHash;
-    itemBlank.textLabel[0] = uniqueNameHash + '_' + i;
+    itemBlank.textLabel[0] = textLabel + '_' + i;
+    itemBlank.uniqNameHash[0] = textLabel + '_' + i;
 
     Storage.createItem(itemBlank);
   }
@@ -90,7 +91,7 @@ const CompInfo = (props) => {
               </Grid>
               <Grid item xs>
                 <label htmlFor="uniqueNameHash">
-                  Set name <input id="uniqueNameHash" type="text" name="uniqueNameHash"></input>
+                  Set name <input id="textLabel" type="text" name="textLabel"></input>
                 </label>
                 </Grid>
               <input type="hidden" value={maxModel+1} id="localDrawableIndex" name="localDrawableIndex"></input>

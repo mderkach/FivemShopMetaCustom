@@ -65,7 +65,6 @@ const App = () => {
       axios
         .post('http://localhost:4000/data', file).then(res => {
           Storage.setXml(res.data)
-          console.log(res.data)
         })
         .catch(err => console.log(err))
     }
