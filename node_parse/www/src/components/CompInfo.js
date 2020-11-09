@@ -7,32 +7,6 @@ import { observer } from 'mobx-react';
 import { toJS } from 'mobx'
 import Storage from '../storage';
 
-const onClickHandler = (e) => {
-  e.preventDefault();
-
-  const formData = document.newItem;
-  const numOfNewItems = parseInt(formData.textures.value, 10);
-
-  for (let i = 0; i < numOfNewItems; i++) {
-    const itemBlank = { ...toJS(Storage.itemXml) };
-
-    const localDrawableIndex = formData.localDrawableIndex.value;
-    const eCompType = formData.eCompType.value;
-    const textureIndex = i;
-    const lockHash = 'CUSTOM';
-    const textLabel = formData.textLabel.value
-
-    itemBlank.localDrawableIndex[0].$.value = localDrawableIndex;
-    itemBlank.eCompType[0] = eCompType;
-    itemBlank.textureIndex[0].$.value = textureIndex
-    itemBlank.lockHash[0] = lockHash;
-    itemBlank.textLabel[0] = textLabel + '_' + i;
-    itemBlank.uniqNameHash[0] = textLabel + '_' + i;
-
-    Storage.createItem(itemBlank);
-  }
-}
-
 const CompInfo = (props) => {
   const { type, xmlCompInfo } = props;
 
@@ -53,6 +27,32 @@ const CompInfo = (props) => {
 
     return dict;
   };
+
+  const onClickHandler = (e) => {
+    e.preventDefault();
+
+    const formData = document.newItem;
+    const numOfNewItems = parseInt(formData.textures.value, 10);
+
+    for (let i = 0; i < numOfNewItems; i++) {
+      const itemBlank = { ...toJS(Storage.itemXml) };
+
+      const localDrawableIndex = formData.localDrawableIndex.value;
+      const eCompType = formData.eCompType.value;
+      const textureIndex = i;
+      const lockHash = 'CUSTOM';
+      const textLabel = formData.textLabel.value
+
+      itemBlank.localDrawableIndex[0].$.value = localDrawableIndex;
+      itemBlank.eCompType[0] = eCompType;
+      itemBlank.textureIndex[0].$.value = textureIndex
+      itemBlank.lockHash[0] = lockHash;
+      itemBlank.textLabel[0] = `${textLabel}_${i}`;
+      itemBlank.uniqNameHash[0] = `${textLabel}_${type.toUpperCase()}_${i}`;
+
+      Storage.createItem(itemBlank);
+    }
+  }
 
   const groups = createGroup(xmlCompInfo);
   const maxModel = Math.max(...Object.keys(groups))
