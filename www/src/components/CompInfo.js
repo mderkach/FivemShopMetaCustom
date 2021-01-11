@@ -34,23 +34,29 @@ const CompInfo = (props) => {
     const formData = document.newItem;
     const numOfNewItems = parseInt(formData.textures.value, 10);
 
-    for (let i = 0; i < numOfNewItems; i++) {
-      const itemBlank = { ...toJS(Storage.itemXml) };
+    if (numOfNewItems > 0) {
+      for (let i = 0; i < numOfNewItems; i++) {
+        const itemBlank = { ...toJS(Storage.itemXml) };
 
-      const localDrawableIndex = formData.localDrawableIndex.value;
-      const eCompType = formData.eCompType.value;
-      const textureIndex = i;
-      const lockHash = 'CUSTOM';
-      const textLabel = formData.textLabel.value
+        const localDrawableIndex = formData.localDrawableIndex.value;
+        const eCompType = formData.eCompType.value;
+        const textureIndex = i;
+        const lockHash = 'CUSTOM';
+        const textLabel = formData.textLabel.value
 
-      itemBlank.localDrawableIndex[0].$.value = localDrawableIndex;
-      itemBlank.eCompType[0] = eCompType;
-      itemBlank.textureIndex[0].$.value = textureIndex
-      itemBlank.lockHash[0] = lockHash;
-      itemBlank.textLabel[0] = `${textLabel}_${i}`;
-      itemBlank.uniqNameHash[0] = `${textLabel}_${type.toUpperCase()}_${i}`;
+        itemBlank.localDrawableIndex[0].$.value = localDrawableIndex;
+        itemBlank.eCompType[0] = eCompType;
+        itemBlank.textureIndex[0].$.value = textureIndex
+        itemBlank.lockHash[0] = lockHash;
+        itemBlank.textLabel[0] = `${textLabel}_${i}`;
+        itemBlank.uniqueNameHash[0] = `${textLabel}_${type.toUpperCase()}_${i}`;
 
-      Storage.createItem(itemBlank);
+        Storage.createItem(itemBlank);
+      }
+
+      Storage.filtersComponentsFromStore(Storage.processingItemType)
+    } else {
+      alert('Set correct textures count')
     }
   }
 
@@ -69,7 +75,7 @@ const CompInfo = (props) => {
                 aria-controls={`panel${key}a-content`}
                 id={`panel${key}a-header`}
               >
-                <Typography>Item: { key }</Typography>
+                <Typography>Item: {key}, itemGroup: { item[0].textLabel[0] }</Typography>
               </AccordionSummary>
               {item.map((subitem, subindex) => (
                 <AccordionDetails key={subindex}>

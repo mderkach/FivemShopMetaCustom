@@ -49,7 +49,7 @@ app.get('/index.js',function(req,res) {
 
 app.post('/generate', function (req, res) {
   const file = builder.buildObject(req.body.fileData);
-  const path = `outputXml/${req.body.fileName}.ymt.xml`
+  const path = `outputXml/${req.body.fileName}.meta`
   fs.writeFile(path, file, 'UTF-8', function (err) {
     if (err) {
       res.send(err);

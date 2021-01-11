@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
 import { observer } from 'mobx-react';
-import { toJS, autorun } from 'mobx'
+import { toJS } from 'mobx'
 import axios from 'axios';
 import CompInfo from './components/CompInfo';
 import Storage from './storage';
@@ -46,8 +46,6 @@ const componentsDict = {
 
 const App = () => {
   const [pedType, setPedType] = useState();
-  const [processingItem, setProcessingItem] = useState()
-  const [processingItemType, setProcessingItemType] = useState()
 
   const onFormChange = function (e) {
     const path = e.target.value;
@@ -60,7 +58,6 @@ const App = () => {
     setPedType(targetPath)
 
     const file = new FormData(document.form)
-    console.log(document.form.file.files.length)
     if (document.form.file.files.length) {
       axios
         .post('http://localhost:4000/data', file).then(res => {
@@ -81,11 +78,7 @@ const App = () => {
   }
 
   const filterComponents = (key) => {
-    const components = jsDataXml.ShopPedApparel.pedComponents[0].Item;
-    const targetKey = `PV_COMP_${key.toUpperCase()}`
-
-    setProcessingItem(components.filter(item => item.eCompType[0] === targetKey));
-    setProcessingItemType(key);
+    Storage.filtersComponentsFromStore(key);
   }
 
   const jsDataXml = toJS(Storage.xml);
@@ -120,7 +113,7 @@ const App = () => {
             </Grid>
             <Grid item xs={2}>
               <Box display="flex" alignItems="center" m={1}>
-                {processingItemType && (<span>TargetComponent: {processingItemType}</span>)}
+                {Storage.processingItemType && (<span>TargetComponent: {Storage.processingItemType}</span>)}
               </Box>
             </Grid>
             <Grid item xs={2}>
@@ -145,10 +138,10 @@ const App = () => {
             </Grid>
             <Grid item xs={10} style={{ overflow: 'hidden', height: 'calc(100vh - 80px)'}}>
               {
-                Object.keys(jsDataXml).length !== 0 && jsDataXml && processingItemType && processingItem && (
+                Object.keys(jsDataXml).length !== 0 && jsDataXml && Storage.processingItemType && Storage.processingItem && (
                   <CompInfo
-                    type={processingItemType}
-                    xmlCompInfo={processingItem}
+                    type={Storage.processingItemType}
+                    xmlCompInfo={Storage.processingItem}
                   />
                 )
               }
@@ -159,10 +152,5 @@ const App = () => {
     </Fragment>
   )
 }
-
-autorun(() => {
-  toJS(Storage.xml)
-  toJS(Storage.availComponents)
-})
 
 export default observer(App);

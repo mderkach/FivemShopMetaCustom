@@ -7,6 +7,12 @@ class StorageProto {
 
   @observable xml = {};
 
+  @observable processingItem = {};
+
+  @observable processingItemType = '';
+
+
+
   itemXml = {
     lockHash: ['custom'],
     cost: [
@@ -107,6 +113,22 @@ class StorageProto {
 
   @action createItem(item) {
     this.xml.ShopPedApparel.pedComponents[0].Item.push(item)
+  }
+
+  @action setProcessingItem(data) {
+    this.processingItem = data;
+  }
+
+  @action setProcessingItemType(data) {
+    this.processingItemType = data;
+  }
+
+  @action filtersComponentsFromStore(data) {
+    this.setProcessingItemType(data);
+    const components = this.xml.ShopPedApparel.pedComponents[0].Item;
+    const targetKey = `PV_COMP_${this.processingItemType.toUpperCase()}`;
+
+    this.setProcessingItem(components.filter(item => item.eCompType[0] === targetKey));
   }
 }
 

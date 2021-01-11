@@ -28,3 +28,4 @@ ehthumbs.db
 *.zip
 *.7z
 stats.json
+/outputXml
